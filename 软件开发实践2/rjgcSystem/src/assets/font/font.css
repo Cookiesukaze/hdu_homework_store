@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'opposans';
+    src:url('~@/assets/font/opposans.ttf');
+}
+
+@font-face {
+    font-family: 'opposans Light';
+    src:url('~@/assets/font/opposansL.ttf');
+}
