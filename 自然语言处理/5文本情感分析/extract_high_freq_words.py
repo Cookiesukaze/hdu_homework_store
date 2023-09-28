@@ -1,5 +1,5 @@
 import jieba
-
+import re
 
 # 分词
 def divide_text(text_path, stop_word_path, only_vital_chinese):
@@ -26,6 +26,8 @@ def statistics_func(text_list):
     # print(dictionary)
     sorted_dic = dict(sorted(dictionary.items(), key=lambda x: x[1], reverse=True))  # 按值倒序排序并重新生成字典
     # print(sorted_dic)
-    for k, v in list(sorted_dic.items())[:30]:  # 转列表输出前三十项
-        print(k, v)
-
+    # 新增-去掉单汉字
+    filtered_dict = {key: value for key, value in sorted_dic.items() if not re.match(r'^[\u4e00-\u9fa5]$', key)}
+    # for k, v in list(filtered_dict.items())[:30]:  # 转列表输出前三十项
+    #     print(k, v)
+    return filtered_dict

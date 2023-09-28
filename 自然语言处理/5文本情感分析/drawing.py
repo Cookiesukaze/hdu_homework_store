@@ -9,6 +9,9 @@ from pyecharts.charts import Pie
 from pyecharts.charts import Grid
 from pyecharts.charts import Bar, Line
 from extract_high_freq_words import *
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+import os
 
 
 '''
@@ -84,4 +87,12 @@ with open(txt_file, "w") as file:
     for data in column_data:
         file.write(data + "\n")
 divided_text = divide_text(text_path="流浪地球_preprocess_content.txt", stop_word_path="stoplist.txt", only_vital_chinese=True)
-statistics_func(divided_text)
+wordcloud_dict = statistics_func(divided_text)
+# —————————————————评论内容关键词词云绘制———————————————————
+# print(wordcloud_dict)
+font_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fonts', 'SimHei.ttf')
+wordcloud = WordCloud(font_path=font_path,background_color='white',scale=32,).generate_from_frequencies(wordcloud_dict)
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+# plt.show()
+wordcloud.to_file('豆瓣影评文本情感分析-评论词云.png')
