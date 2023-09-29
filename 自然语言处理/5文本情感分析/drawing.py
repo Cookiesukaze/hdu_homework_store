@@ -13,7 +13,6 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import os
 
-
 '''
 2.数据可视化
 '''
@@ -48,7 +47,7 @@ china_province = (
 pie = Pie()
 pie.add("", data_province)
 pie.set_global_opts(
-    title_opts=opts.TitleOpts(title="豆瓣影评文本情感分析-评论地区",),
+    title_opts=opts.TitleOpts(title="豆瓣影评文本情感分析-评论地区", ),
     legend_opts=opts.LegendOpts(
         orient="horizontal",
         pos_left="center",
@@ -61,6 +60,8 @@ pie.set_series_opts(
 pie.render('豆瓣影评文本情感分析-评论地区饼图.html', width="900px", height="900px")
 # —————————————————画图-评分柱状图———————————————————
 score_mapping = {'力荐': 5, '推荐': 4, '还行': 3, '较差': 2, '很差': 1}
+key_list = ['力荐', '推荐', '还行', '较差', '很差']
+df_evaluate_dict = dict(sorted(df_evaluate_dict.items(), key=lambda x: key_list.index(x[0])))  # 字典重排序
 df_evaluate_scores = list(df_evaluate_dict.keys())
 df_evaluate_counts = list(df_evaluate_dict.values())
 total_score = sum(score_mapping[score] * count for score, count in df_evaluate_dict.items())
@@ -77,7 +78,7 @@ bar = (
 )
 bar.render("豆瓣影评文本情感分析-评分和人数柱状图.html")
 # —————————————————评论内容关键词提取———————————————————
-csv_file = "流浪地球_preprocess.csv" #先把评论列提取成一个txt就可以调作业2了
+csv_file = "流浪地球_preprocess.csv"  # 先把评论列提取成一个txt就可以调作业2了
 column_name = "content"
 txt_file = "流浪地球_preprocess_content.txt"
 with open(csv_file, "r", newline="") as file:
@@ -86,13 +87,17 @@ with open(csv_file, "r", newline="") as file:
 with open(txt_file, "w") as file:
     for data in column_data:
         file.write(data + "\n")
-divided_text = divide_text(text_path="流浪地球_preprocess_content.txt", stop_word_path="stoplist.txt", only_vital_chinese=True)
+divided_text = divide_text(text_path="流浪地球_preprocess_content.txt", stop_word_path="stoplist.txt",
+                           only_vital_chinese=True)
 wordcloud_dict = statistics_func(divided_text)
 # —————————————————评论内容关键词词云绘制———————————————————
 # print(wordcloud_dict)
 font_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fonts', 'SimHei.ttf')
-wordcloud = WordCloud(font_path=font_path,background_color='white',scale=32,).generate_from_frequencies(wordcloud_dict)
+wordcloud = WordCloud(font_path=font_path, background_color='white', scale=32, ).generate_from_frequencies(
+    wordcloud_dict)
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')
 # plt.show()
 wordcloud.to_file('豆瓣影评文本情感分析-评论词云.png')
+
+print("可视化完成")

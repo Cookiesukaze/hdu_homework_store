@@ -1,0 +1,64 @@
+D:\Env\Anaconda\python.exe E:\大三上作业收集\自然语言处理\实训专题数据集\5文本情感分析\bert_sentiment_analysis\bert_sentiment_analysis.py 
+Some weights of the model checkpoint at bert-base-chinese were not used when initializing BertModel: ['cls.predictions.decoder.weight', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.dense.weight', 'cls.seq_relationship.bias', 'cls.predictions.transform.LayerNorm.bias', 'cls.predictions.transform.dense.bias', 'cls.seq_relationship.weight', 'cls.predictions.bias']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+100%|██████████| 24/24 [05:19<00:00, 13.33s/it]
+Epochs: 1 
+              | Train Loss:  0.107 
+              | Train Accuracy:  0.242 
+              | Val Loss:  0.102 
+              | Val Accuracy:  0.319
+100%|██████████| 24/24 [05:40<00:00, 14.19s/it]
+Epochs: 2 
+              | Train Loss:  0.093 
+              | Train Accuracy:  0.374 
+              | Val Loss:  0.091 
+              | Val Accuracy:  0.340
+100%|██████████| 24/24 [05:58<00:00, 14.93s/it]
+  0%|          | 0/24 [00:00<?, ?it/s]Epochs: 3 
+              | Train Loss:  0.081 
+              | Train Accuracy:  0.481 
+              | Val Loss:  0.078 
+              | Val Accuracy:  0.511
+100%|██████████| 24/24 [05:53<00:00, 14.71s/it]
+  0%|          | 0/24 [00:00<?, ?it/s]Epochs: 4 
+              | Train Loss:  0.070 
+              | Train Accuracy:  0.637 
+              | Val Loss:  0.072 
+              | Val Accuracy:  0.553
+100%|██████████| 24/24 [07:23<00:00, 18.49s/it]
+Epochs: 5 
+              | Train Loss:  0.057 
+              | Train Accuracy:  0.769 
+              | Val Loss:  0.052 
+              | Val Accuracy:  0.723
+100%|██████████| 24/24 [13:17<00:00, 33.23s/it]
+Epochs: 6 
+              | Train Loss:  0.043 
+              | Train Accuracy:  0.855 
+              | Val Loss:  0.040 
+              | Val Accuracy:  0.894
+100%|██████████| 24/24 [13:19<00:00, 33.29s/it]
+Epochs: 7 
+              | Train Loss:  0.033 
+              | Train Accuracy:  0.954 
+              | Val Loss:  0.027 
+              | Val Accuracy:  0.957
+100%|██████████| 24/24 [11:27<00:00, 28.63s/it]
+  0%|          | 0/24 [00:00<?, ?it/s]Epochs: 8 
+              | Train Loss:  0.019 
+              | Train Accuracy:  0.997 
+              | Val Loss:  0.016 
+              | Val Accuracy:  1.000
+100%|██████████| 24/24 [06:35<00:00, 16.48s/it]
+Epochs: 9 
+              | Train Loss:  0.013 
+              | Train Accuracy:  1.000 
+              | Val Loss:  0.012 
+              | Val Accuracy:  1.000
+100%|██████████| 24/24 [05:50<00:00, 14.60s/it]
+Epochs: 10 
+              | Train Loss:  0.010 
+              | Train Accuracy:  1.000 
+              | Val Loss:  0.008 
+              | Val Accuracy:  1.000
