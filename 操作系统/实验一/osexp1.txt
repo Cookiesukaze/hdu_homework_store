@@ -1,0 +1,28 @@
+control+t进入终端
+sudo mount -t fuse.vmhgfs-fuse .host:/ ./Ubuntu_share -o allow_other
+0.
+sudo apt-get install aptitude
+sudo aptitude install yum    
+1.安装gcc编译器和内核头文件
+sudo apt update
+sudo apt-get install build-essential linux-headers-$(uname -r)
+	其中“build-essential”,它包含了 GNU 编辑器集合，GNU 调试器，和其他编译软件所必需的开发库和工具，包括gcc,g++,和make
+	Linux 内核头文件，是通常用于编译驱动程序和可加载模块以添加对内核的支持的组件。 为此，内核头文件包括带有编译模块所需的函数和结构的 C 头文件。
+
+2.
+cd ./Ubuntu_share/Ubuntu_share/osexp/osexp1
+make
+make时发现make文件里面本应该是tab的地方变成了八个空格。用vim打开make文件，按i键进入编辑模式，修改后按esc进入命令模式，:wq保存退出，重新打开终端键入命令
+3.修改makefile文件并执行make命令，生成两个.ko文件
+
+4.
+su 进入管理员权限
+dmesg -c 清空系统日志
+insmod module2.ko pid=2 载入module2 并传入参数
+dmesg 查看刚刚的module2打印的信息
+lsmod 查看已加载模块
+dmesg -c 清空系统日志
+insmod module1.ko 载入module1 并传入参数
+dmesg 查看刚刚的module1打印的信息
+rmmod module1 卸载module1
+rmmod module2 卸载module2

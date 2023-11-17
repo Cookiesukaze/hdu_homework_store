@@ -1,0 +1,46 @@
+sudo mount -t fuse.vmhgfs-fuse .host:/ ./Ubuntu_share -o allow_other
+0.
+
+1.模拟shell实验
+编写代码并放入共享文件夹
+cd ./Ubuntu_share/Ubuntu_share/osexp/osexp3/osexp3_1
+make 生成目标文件
+./myshell 运行模拟shell
+输入 cmd1 cmd2 cmd3 exit 随便什么 进行尝试即可
+完成
+
+2.管道通信程序
+
+编写代码并放入共享文件夹
+cd ./Ubuntu_share/Ubuntu_share/osexp/osexp3/osexp3_2
+make 生成目标文件
+./newfifo ./pipe（无名管道）
+由于windows的文件系统不支持管道文件，所以把osexp拷贝到其他地方：
+cd到共享文件夹层，复制祂到下载文件夹
+cp -r ./osexp /home/respawn/下载
+cd /home/respawn/下载/osexp/osexp3/osexp3_2
+clear清空控制台
+打开两个窗口，分别执行sudo ./create sudo ./write（有名管道）
+输入exit结束
+rm -f fifo.tmp 若有必要删除产生的fifo.tmp
+
+3.消息队列通信
+编写代码并放入共享文件夹，切到download
+cp -r /home/respawn/Ubuntu_share/Ubuntu_share/osexp /home/respawn/下载
+cd /home/respawn/下载/osexp/osexp3/osexp3_3
+make 生成目标文件时报错，总之跟我不该贸然改动文件名有关
+cp -r /home/respawn/Ubuntu_share/Ubuntu_share/osexp /home/respawn/下载
+cd /home/respawn/下载/osexp/osexp3/osexp3_3
+分别开三个窗口运行./receive ./send ./send2 都要在root下才行
+输入exit结束
+观察到现象：关闭send进程的时候，receive会重复收到很多重复消息
+
+4.利用共享内存通信机制实现两个进程间通信
+编写代码并放入共享文件夹，切到download，原.c文件名不要随便改
+cp -r /home/respawn/Ubuntu_share/Ubuntu_share/osexp /home/respawn/下载
+cd /home/respawn/下载/osexp/osexp3/osexp3_4
+make
+打开两个窗口./msender ./mreceiver 
+输入over结束
+
+结束！

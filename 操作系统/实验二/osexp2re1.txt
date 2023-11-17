@@ -1,0 +1,96 @@
+0.查看当前内核
+cat /proc/version 
+获得 Linux version 5.15.0-88-generic
+我要使用新的低版本内核所以重开了
+
+1.respawn1 下载内核源码以及解压找到sys.c
+su
+把新下的linux-5.15.137.tar.xz放到共享文件夹
+cd Ubuntu_share/Ubuntu_share/osexp/osexp2
+tar -xvJf linux-5.15.137.tar.xz -C /usr/src/ 解压祂和其他的内核一起
+cd /usr/src/linux-5.15.137/kernel
+vim sys.c
+按esc进入命令模式，:wq保存退出
+cp /usr/src/linux-5.15.137/kernel/sys.c /home/respawn/Ubuntu_share/Ubuntu_share/osexp/osexp2/sys.c 保存备用
+
+2.声明并实现系统调用服务例程
+cd /usr/src/linux-5.15.137/kernel
+
+cp /usr/src/linux-5.15.137/arch/x86/include/asm/syscalls.h  /home/respawn/Ubuntu_share/Ubuntu_share/osexp/osexp2/syscalls.h 保存备用
+
+cd /usr/src/linux-5.15.137/arch/x86/include/asm/
+vim syscalls.h 中endif之前添加声明（声明和实现代码都在md文件里）
+
+cd /usr/src/linux-5.15.137/kernel/
+vim sys.c中#endif /*config_compat*/（最后）之前添加实现
+
+3.添加系统调用（添加新表项）
+cd /usr/src/linux-5.15.137/arch/x86/entry/syscalls
+cp /usr/src/linux-5.15.137/arch/x86/entry/syscalls/syscall_64.tbl /home/respawn/Ubuntu_share/Ubuntu_share/osexp/osexp2/syscall_64.tbl 保存备用
+vim syscall_64.tbl
+发现334号后面是空的，过于后面的又不能用，i键进入编辑模式，新建335号mysetnice以及sys_mysetnice
+
+4.安装一些依赖先
+sudo apt-get update
+sudo apt-get install libncurses5-dev openssl libssl-dev
+sudo apt-get install build-essential openssl
+sudo apt-get install pkg-config
+sudo apt-get install libc6-dev
+sudo apt-get install libelf-dev
+sudo apt-get install zlibc minizip
+sudo apt-get install libidn11-dev libidn11
+sudo apt-get install flex
+sudo apt-get install bison
+sudo apt install dwarves
+sudo aptitude install zstd
+
+5.内核编译
+cd /usr/src/linux-5.15.137
+make mrproper 清理之前的编译结果
+make clean 清理临时文件
+ls /boot 查看旧配置
+cp /boot/config-5.15.0-88-generic ./.config 用旧配置设置新配置
+vim .config，查找CONFIG_SYSTEM_TRUSTED_KEYS和CONFIG_SYSTEM_REVOCATION_KEYS，内容置空
+make menuconfig 选择load save exit，其中save的时候改成.configbak
+lscpu 查看可用cpu数12个
+make bzImage -j12 编译内核，花了几十分钟
+cp ./arch/x86/boot/bzImage /home/respawn/Ubuntu_share/Ubuntu_share/osexp/osexp2/bzImage 保存备用
+make modules -j12 编译模块,花了七十分钟
+make INSTALL_MOD_STRIPE=1 modules_install 安装模块
+rm -rf ./lib/modules 上一步由于存储空间没了中断了，删除生成的文件，再去分空间
+rm -rf /usr/src/linux-6.5.10 删除之前的6.x核
+重新安装模块，存储满了，关机后开不了机...grab恢复模式选root，进去删东西重启
+重新安装模块，成功
+mkinitramfs /lib/modules/5.15.137 -o /boot/initrd.img-5.15.137-generic
+拷贝内核映象和map：
+cp /usr/src/linux-5.15.137/arch/x86/boot/bzImage /boot/vmlinuz-5.15.137-generic
+cp /usr/src/linux-5.15.137/System.map  /boot/System.map-5.15.137
+ln -s /boot/System.map-5.15.137 /boot/System.map
+更新grub：
+cd /boot/grub
+chmod 777 grub.cfg
+update-grub
+
+6.测试（伪）
+reboot报错error: the initrd is too big，怒了，grab进入原来的内核
+到上一步 rm -rf /usr/src/linux-5.15.137/lib/modules
+cd /etc/initramfs-tools
+vim initramfs.conf，查找MODULES=most,改成MODULES=dep
+重新从上一步安装模块执行，安装完后
+cd /lib/modules/5.15.137
+find . -name *.ko -exec strip --strip-unneeded {} +
+cd /boot
+ls -alFh查看大小（828m->39m(dep)->）
+再执行上一步安装模块成功后的操作
+reboot
+uname -r 验证，发现是新的，成功
+
+6.测试（真）
+新建test.c编写测试代码放在共享文件夹
+cd Ubuntu_share/Ubuntu_share/osexp/osexp2
+gcc -o test test.c
+./test
+测试成功，收工。
+
+
+

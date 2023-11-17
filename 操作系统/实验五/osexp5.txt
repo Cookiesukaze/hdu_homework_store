@@ -1,0 +1,25 @@
+sudo mount -t fuse.vmhgfs-fuse .host:/ ./Ubuntu_share -o allow_other
+0.
+
+1.生成目标文件
+编写代码并放入共享文件夹
+cd ./Ubuntu_share/Ubuntu_share/osexp/osexp5
+make
+
+2.
+./filesystem
+操作试试，比如
+mkdir testdir
+cd testdir
+create test.c
+open test.c
+write test.c
+2
+编写helloworld代码
+close test.c
+open test.c
+read
+close test.c
+exit
+
+结束！
