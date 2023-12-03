@@ -1,3 +1,5 @@
+该教程记录了部分错误操作的内容，请先完整观看。
+
 0.查看当前内核
 cat /proc/version 
 获得 Linux version 5.15.0-88-generic
