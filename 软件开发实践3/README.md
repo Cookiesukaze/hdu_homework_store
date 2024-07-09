@@ -3,6 +3,7 @@
 第三个短学期是做小程序，选了虹软合作的题目：直方图绘制 <br />
 多做了几个功能，所以实际上是“图片分析”小程序 <br />
 在此放出flask后端代码（app.py），可直接调用，上传一张图片即可 <br />
+在 https://huggingface.co/spaces/Cookiesukaze/ImgAnalysis 在线体验 <br />
 
 #### 功能
 
